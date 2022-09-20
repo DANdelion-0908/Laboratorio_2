@@ -2,9 +2,9 @@ package model;
 
 public class program {
 	
-	public String name;
-	public int programSize;
-	public int runTime;
+	private String name;
+	private int programSize;
+	private int runTime;
 	
 	public program(String _name, int _programSize, int _runTime) {
 		this.name = _name;
