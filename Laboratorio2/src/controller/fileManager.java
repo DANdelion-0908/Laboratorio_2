@@ -2,7 +2,6 @@ package controller;
 import model.ram;
 import model.program;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,12 +15,10 @@ public class fileManager {
 	public void GetFilePrograms(ram _ram) {
 		program program;
 		String file = "src\\programasIniciales.csv";
-		BufferedReader reader = null;
 		String line;
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			int count = 0;
 			while((line = br.readLine()) != null) {
 				
 				String[] fields = line.split(",");
@@ -34,12 +31,15 @@ public class fileManager {
 				_ram.getProgramsLINE().add(program);
 		
 			}
+	          br.close();
+	       
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	

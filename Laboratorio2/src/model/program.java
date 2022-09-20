@@ -6,8 +6,10 @@ public class program {
 	public int programSize;
 	public int runTime;
 	
-	public program(String name, int programSize, int runTime) {
-		
+	public program(String _name, int _programSize, int _runTime) {
+		this.name = _name;
+		this.programSize = _programSize;
+		this.runTime = _runTime;
 	}
 	
 	public String getName() {
