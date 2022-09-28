@@ -144,7 +144,6 @@ public class ramControl {
 	public boolean ProgramsTimeOutram (ram myRam) {
 		for(int i = 0; i < myRam.getProgramsEXE().size(); i++) {
 			if (myRam.getProgramsEXE().get(i).getRunTime() == 0) {
-				myRam.setRamStorage(myRam.getRamStorage() + myRam.getProgramsEXE().get(i).getProgramSize());
 				myRam.setAvailableMemory(myRam.getAvailableMemory() + myRam.getProgramsEXE().get(i).getProgramSize());
 				myRam.getProgramsEXE().remove(i);
 				
@@ -169,3 +168,4 @@ public class ramControl {
 	}
 
 }
+;

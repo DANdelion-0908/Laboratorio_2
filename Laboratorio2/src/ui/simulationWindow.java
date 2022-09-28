@@ -79,6 +79,30 @@ public class simulationWindow extends JFrame {
 		lblRUNTIME.setBounds(10, 187, 116, 29);
 		contentPane.add(lblRUNTIME);
 		
+		JPanel panel = new JPanel();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setPanel(panel);
+		panel.setLayout(null);
+		
+		
+		JScrollPane scroll = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		JLabel label = new JLabel("New label");
+		label.setBounds(120, 109, 46, 14);
+		panel.add(label);
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setBounds(189, 86, 46, 14);
+		
+		
+		scroll.setBounds(199, 73, 372, 279);
+		contentPane.add(scroll);
+		
+		JLabel lblRAMSize_2 = new JLabel("-");
+		lblRAMSize_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblRAMSize_2.setBounds(10, 150, 160, 23);
+		contentPane.add(lblRAMSize_2);
+		
 		// Creating a timer that will execute the code inside the `actionPerformed` method every 1000
 		// milliseconds.
 		timer = new Timer (1000, new ActionListener ()
@@ -87,7 +111,8 @@ public class simulationWindow extends JFrame {
 			public void actionPerformed(ActionEvent e)
 		    {
 		    	TimerWork();
-		    	
+		    	lblRAMSize.setText(MyRam.getRamStorage() * 64 + " mb or " + MyRam.getRamStorage() + " bloques  (TOTALES)");
+		    	lblRAMSize_2.setText(MyRam.getAvailableMemory() * 64 + " mb or " + MyRam.getAvailableMemory() + " bloques (EN USO)");
 		    	/*Setting the text of the label `lblRUNTIME` to the value of the variables `minutes` and
 				`seconds`.*/
 				lblRUNTIME.setText(minutes + ":" + seconds);
@@ -97,7 +122,7 @@ public class simulationWindow extends JFrame {
 				// the RAM blocks.
 				if (RAMLogic.ProgramsTimeOutram(MyRam) == true) {
 		    		deletePreviousQueue(RAMUiBlocks);
-					UpdateRAMBlocks(RAMUiBlocks, MyRam);
+					UpdateRAMBlocks(RAMUiBlocks, MyRam, panel);
 					getContentPane().revalidate();
 					getContentPane().repaint();
 		    	}
@@ -112,7 +137,7 @@ public class simulationWindow extends JFrame {
 						UpdateQueueBlocks(QueueUiBlocks, MyRam);
 						
 						deletePreviousQueue(RAMUiBlocks);
-						UpdateRAMBlocks(RAMUiBlocks, MyRam);
+						UpdateRAMBlocks(RAMUiBlocks, MyRam, panel);
 						
 						getContentPane().revalidate();
 						getContentPane().repaint();
@@ -197,18 +222,6 @@ public class simulationWindow extends JFrame {
 		lblNewLabel_1_1.setBounds(331, 11, 116, 14);
 		contentPane.add(lblNewLabel_1_1);
 		
-		JPanel panel = new JPanel();
-		
-		JScrollPane scroll = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		
-		scroll.setBounds(199, 73, 372, 279);
-		contentPane.add(scroll);
-		
-		JFrame blocks = new JFrame();
-		
-		
-		
-
 
 		
 		// Adding an action listener to the button `btnStart`.
@@ -225,7 +238,7 @@ public class simulationWindow extends JFrame {
 					
 					// Deleting the previous queue and updating the RAM blocks.
 					deletePreviousQueue(RAMUiBlocks);
-					UpdateRAMBlocks(RAMUiBlocks, MyRam);
+					UpdateRAMBlocks(RAMUiBlocks, MyRam, panel);
 					
 					timer.start();
 					
@@ -257,6 +270,16 @@ public class simulationWindow extends JFrame {
 		
 	}
 	
+	private Object getPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void setPanel(JPanel panel) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * If the seconds are greater than 59, reset the seconds to 0 and increment the minutes.
 	 */
@@ -341,7 +364,7 @@ public class simulationWindow extends JFrame {
 	}
 	
 	// Clearing the ArrayList of JLabels that represent the blocks in the RAM.
-	public void UpdateRAMBlocks(ArrayList<JLabel> _blocks, ram _MyRam) {
+	public void UpdateRAMBlocks(ArrayList<JLabel> _blocks, ram _MyRam, JPanel panel) {
 		_blocks.clear();
 		
 		int Position = 1;
@@ -371,6 +394,11 @@ public class simulationWindow extends JFrame {
 			newFreelbl.setOpaque(true);
 			newFreelbl.setBackground(Color.GREEN);
 			_blocks.add(newFreelbl);
+			
+			panel.add(newFreelbl);
+			panel.revalidate();
+			panel.repaint();
+			
 			getContentPane().add(newFreelbl);
 			getContentPane().revalidate();
 			getContentPane().repaint();
