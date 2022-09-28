@@ -26,7 +26,7 @@ public class newProgramDialog extends JFrame {
 	private JLabel lblProgramTime;
 	private newProgramDialog selfPrgDialog;
 
-	
+
 	public newProgramDialog(simulationWindow mainForm, ramControl ramLOGIC) {
 		this.selfPrgDialog = this;
 

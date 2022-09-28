@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.ram;
 import model.program;
 import java.lang.Math;
+import ui.simulationWindow;
 
 public class ramControl {
 	
@@ -37,7 +38,7 @@ public class ramControl {
 	 * @param _Program The program that is being added to the ram.
 	 * @return The method is returning a boolean value.
 	 */
-		
+	
 	public boolean CanAddProgramToRam(ram _myRam, program _Program) {
 		int ramSpace = _myRam.getAvailableMemory();
 		int ProgramSpace = _Program.getProgramSize();
@@ -48,7 +49,6 @@ public class ramControl {
 		}
 		
 		else if (ramSpace <= ProgramSpace && RamType.equals("ddr")) {
-			IncreaseRam(_myRam);
 			return true;
 		}
 		
@@ -84,9 +84,7 @@ public class ramControl {
 	}
 	
 	/**
-	 * This function takes in a ram object and increases the total memory and available memory by 64 if
-	 * the total memory is less than 256, and doubles the total memory and available memory if the total
-	 * memory is greater than or equal to 256
+	 * This function takes in a ram object and Checks how much ram should be added so the program can run
 	 * 
 	 * @param _ram The ram object that is being modified.
 	 */
@@ -96,12 +94,30 @@ public class ramControl {
 		int AvailableMem = _ram.getAvailableMemory();
 		
 		if(TotalMem < 256) {
-			_ram.setRamStorage(TotalMem + 64);
-			_ram.setAvailableMemory(AvailableMem + 64);
+			
+			if (AvailableMem + 64 > 0) {
+				_ram.setAvailableMemory(AvailableMem + 64);
+			}
+			
+			else if (AvailableMem + 128 > 0) {
+				_ram.setAvailableMemory(AvailableMem + 128);
+			}
+			else if (AvailableMem + 192 > 0) {
+				_ram.setAvailableMemory(AvailableMem + 192);
+			}
+			
+			else if (AvailableMem + 256 > 0) {
+				_ram.setAvailableMemory(AvailableMem + 256);
+			}
+			
 		}
 		else if (TotalMem >= 256) {
-			_ram.setRamStorage(TotalMem * 2);
-			_ram.setAvailableMemory(AvailableMem * 2);
+			if (AvailableMem + 512 > 0) {
+				_ram.setAvailableMemory(AvailableMem + 512);
+			}
+			if (AvailableMem + 1024 > 0) {
+				_ram.setAvailableMemory(AvailableMem + 1024);
+			}
 		}
 	}
 	
@@ -120,15 +136,15 @@ public class ramControl {
 		int TotalMem = _ram.getRamStorage();
 		int AvailableMem = _ram.getAvailableMemory();
 		
-		if(TotalMem <= 256 && TotalMem <= 0) {
-			if (AvailableMem > TotalMem - 64) {
-				_ram.setRamStorage(TotalMem - 64);
+		if(TotalMem <= 256 && TotalMem > 0) {
+			if (AvailableMem > TotalMem) {
+				_ram.setAvailableMemory(AvailableMem - 64);
 			}
 		}
 		
-		else if(TotalMem > 256 && TotalMem <= 0) {
-			if (AvailableMem > TotalMem / 2) {
-				_ram.setRamStorage(TotalMem / 2);
+		else if(TotalMem > 256) {
+			if (AvailableMem > TotalMem) {
+				_ram.setAvailableMemory(AvailableMem / 2);
 			}
 		}
 	}
@@ -140,11 +156,11 @@ public class ramControl {
 	 * @param myRam is the ram object
 	 * @return A boolean
 	 */
-
 	public boolean ProgramsTimeOutram (ram myRam) {
 		for(int i = 0; i < myRam.getProgramsEXE().size(); i++) {
 			if (myRam.getProgramsEXE().get(i).getRunTime() == 0) {
 				myRam.setAvailableMemory(myRam.getAvailableMemory() + myRam.getProgramsEXE().get(i).getProgramSize());
+
 				myRam.getProgramsEXE().remove(i);
 				
 				System.out.println("Se removio un programa");

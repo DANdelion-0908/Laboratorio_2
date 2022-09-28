@@ -12,7 +12,6 @@ public class ram {
 	private ArrayList<program> programsLINE;
 
 // A constructor that is used to create a new object of the class ram.
-
 	public ram(String _ramType, int _ramStorage, int _AvailableMemory){
 		this.AvailableMemory = _AvailableMemory;
 		this.ramType = _ramType;

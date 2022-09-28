@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class simulationWindow extends JFrame {
 	
@@ -50,7 +51,7 @@ public class simulationWindow extends JFrame {
 		RAMUiBlocks = new ArrayList<JLabel>();
 		
 		this.ActualSimulation = this;
-
+		
 		// Creating the frame.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 597, 402);
@@ -78,29 +79,14 @@ public class simulationWindow extends JFrame {
 		lblRUNTIME.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblRUNTIME.setBounds(10, 187, 116, 29);
 		contentPane.add(lblRUNTIME);
-		
-		JPanel panel = new JPanel();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setPanel(panel);
-		panel.setLayout(null);
-		
-		
-		JScrollPane scroll = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		
-		JLabel label = new JLabel("New label");
-		label.setBounds(120, 109, 46, 14);
-		panel.add(label);
 		
 		JLabel lblNewLabel_2 = new JLabel("New label");
 		lblNewLabel_2.setBounds(189, 86, 46, 14);
 		
-		
-		scroll.setBounds(199, 73, 372, 279);
-		contentPane.add(scroll);
-		
 		JLabel lblRAMSize_2 = new JLabel("-");
 		lblRAMSize_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblRAMSize_2.setBounds(10, 150, 160, 23);
+		lblRAMSize_2.setBounds(10, 150, 195, 23);
 		contentPane.add(lblRAMSize_2);
 		
 		// Creating a timer that will execute the code inside the `actionPerformed` method every 1000
@@ -111,8 +97,6 @@ public class simulationWindow extends JFrame {
 			public void actionPerformed(ActionEvent e)
 		    {
 		    	TimerWork();
-		    	lblRAMSize.setText(MyRam.getRamStorage() * 64 + " mb or " + MyRam.getRamStorage() + " bloques  (TOTALES)");
-		    	lblRAMSize_2.setText(MyRam.getAvailableMemory() * 64 + " mb or " + MyRam.getAvailableMemory() + " bloques (EN USO)");
 		    	/*Setting the text of the label `lblRUNTIME` to the value of the variables `minutes` and
 				`seconds`.*/
 				lblRUNTIME.setText(minutes + ":" + seconds);
@@ -122,22 +106,25 @@ public class simulationWindow extends JFrame {
 				// the RAM blocks.
 				if (RAMLogic.ProgramsTimeOutram(MyRam) == true) {
 		    		deletePreviousQueue(RAMUiBlocks);
-					UpdateRAMBlocks(RAMUiBlocks, MyRam, panel);
+					UpdateRAMBlocks(RAMUiBlocks, MyRam);
 					getContentPane().revalidate();
 					getContentPane().repaint();
 		    	}
 		    	
 		    	for (int j = 0; j < MyRam.getProgramsLINE().size(); j++) {
 		    		
-		    		if(RAMLogic.CanAddProgramToRam(MyRam, MyRam.getProgramsLINE().get(j) ) ) {
+		    		if(RAMLogic.CanAddProgramToRam(MyRam, MyRam.getProgramsLINE().get(j) ) ) {	
 		    			RAMLogic.addProgramToRam(MyRam, MyRam.getProgramsLINE().get(j));
-		    			MyRam.getProgramsLINE().remove(j);
 		    			
+		    			
+		    			
+		    			MyRam.getProgramsLINE().remove(j);
+		   
 		    			deletePreviousQueue(QueueUiBlocks);
 						UpdateQueueBlocks(QueueUiBlocks, MyRam);
 						
 						deletePreviousQueue(RAMUiBlocks);
-						UpdateRAMBlocks(RAMUiBlocks, MyRam, panel);
+						UpdateRAMBlocks(RAMUiBlocks, MyRam);
 						
 						getContentPane().revalidate();
 						getContentPane().repaint();
@@ -146,8 +133,14 @@ public class simulationWindow extends JFrame {
 		    	}
 		    	
 		    	if (MyRam.getRamType().equals("ddr")) {
-		    		System.out.println("Is ddr");
+		    		RAMLogic.DecreaseRam(MyRam);
+		    		if(MyRam.getAvailableMemory() < 0) {
+		    			RAMLogic.IncreaseRam(MyRam);
+		    		}
 		    	}
+		    	
+		    	lblRAMSize.setText(MyRam.getRamStorage() * 64 + " mb or " + MyRam.getRamStorage() + " bloques  (ORIGINALES)");
+		    	lblRAMSize_2.setText(MyRam.getAvailableMemory() * 64 + " mb or " + MyRam.getAvailableMemory() + " bloques (DISPONIBLES)");
 		    	
 		    }
 		});
@@ -157,7 +150,6 @@ public class simulationWindow extends JFrame {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					System.out.println("Button RAM works");
 					MyRam = new ram ("",0,0);
 					newRamDialog RamDialog = new newRamDialog(ActualSimulation);
 					RamDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -195,7 +187,7 @@ public class simulationWindow extends JFrame {
 		// bounds to `(10, 136, 160, 29)`.
 		lblRAMSize = new JLabel("-");
 		lblRAMSize.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblRAMSize.setBounds(10, 136, 160, 29);
+		lblRAMSize.setBounds(10, 136, 195, 29);
 		contentPane.add(lblRAMSize);
 		
 		// Creating a label called `lblTime` and setting its text to "Tiempo de la Simulacion", its bounds to
@@ -221,8 +213,7 @@ public class simulationWindow extends JFrame {
 		JLabel lblNewLabel_1_1 = new JLabel("En Ejecucion");
 		lblNewLabel_1_1.setBounds(331, 11, 116, 14);
 		contentPane.add(lblNewLabel_1_1);
-		
-
+				
 		
 		// Adding an action listener to the button `btnStart`.
 		btnStart.addActionListener(new ActionListener() {
@@ -238,7 +229,7 @@ public class simulationWindow extends JFrame {
 					
 					// Deleting the previous queue and updating the RAM blocks.
 					deletePreviousQueue(RAMUiBlocks);
-					UpdateRAMBlocks(RAMUiBlocks, MyRam, panel);
+					UpdateRAMBlocks(RAMUiBlocks, MyRam);
 					
 					timer.start();
 					
@@ -257,7 +248,6 @@ public class simulationWindow extends JFrame {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					System.out.println("Button Program works");
 					newProgramDialog Programdialog = new newProgramDialog(ActualSimulation, RAMLogic);
 					Programdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					Programdialog.setVisible(true);
@@ -267,16 +257,6 @@ public class simulationWindow extends JFrame {
 				}
 			}
 		});
-		
-	}
-	
-	private Object getPanel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private void setPanel(JPanel panel) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -364,7 +344,7 @@ public class simulationWindow extends JFrame {
 	}
 	
 	// Clearing the ArrayList of JLabels that represent the blocks in the RAM.
-	public void UpdateRAMBlocks(ArrayList<JLabel> _blocks, ram _MyRam, JPanel panel) {
+	public void UpdateRAMBlocks(ArrayList<JLabel> _blocks, ram _MyRam) {
 		_blocks.clear();
 		
 		int Position = 1;
@@ -394,10 +374,6 @@ public class simulationWindow extends JFrame {
 			newFreelbl.setOpaque(true);
 			newFreelbl.setBackground(Color.GREEN);
 			_blocks.add(newFreelbl);
-			
-			panel.add(newFreelbl);
-			panel.revalidate();
-			panel.repaint();
 			
 			getContentPane().add(newFreelbl);
 			getContentPane().revalidate();

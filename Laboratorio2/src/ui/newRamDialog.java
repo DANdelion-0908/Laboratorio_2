@@ -92,7 +92,6 @@ public class newRamDialog extends JFrame {
 		btnAcceptSpecs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-
 				// Getting the selected item from the comboBoxRamType and comboBoxRamSize and converting it to a
 				// String and an int.
 				try {
