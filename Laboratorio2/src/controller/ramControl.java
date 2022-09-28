@@ -1,6 +1,6 @@
 package controller;
 
-import java.util.ArrayList;.
+import java.util.ArrayList;
 import model.ram;
 import model.program;
 import java.lang.Math;
@@ -9,13 +9,22 @@ public class ramControl {
 	
 	private ram actualRam;
 
-	public ramControl(ram _ram, program _program){
+	public ramControl(ram _ram){
 		actualRam = _ram;
 	}
 	
 	public int mbToBlock(int _mb) {
-		_mb = (int) Math.ceil(_mb/ 64);
-		return _mb;
+		if(_mb % 64 != 0){
+			double number =  (_mb/ 64);
+			_mb = (int) number;
+			return _mb + 1;
+		}
+		else {
+			double number =  (_mb/ 64);
+			_mb = (int) number;
+			return _mb;
+		}
+		
 	}
 	
 	public boolean CanAddProgramToRam(program _Program) {
@@ -38,14 +47,14 @@ public class ramControl {
 		return false;
 	}
 	
-	public void  addProgramToRam(program _Program) {
-		actualRam.getProgramsEXE().add(_Program);
-		actualRam.setRamStorage(actualRam.getRamStorage() - _Program.getProgramSize() );  
-		actualRam.setAvailableMemory(actualRam.getAvailableMemory() - _Program.getProgramSize());
+	public void  addProgramToRam(ram myRam, program _Program) {
+		
+		myRam.getProgramsEXE().add(_Program);
+		myRam.setAvailableMemory(myRam.getAvailableMemory() - _Program.getProgramSize());
 	}
 	
-	public void  addProgramToQueue(program _Program) {
-		actualRam.getProgramsLINE().add(_Program);
+	public void  addProgramToQueue(ram myRam,program _Program) {
+		myRam.getProgramsLINE().add(_Program);
 	}
 	
 	public void IncreaseRam(ram _ram) {
@@ -81,6 +90,22 @@ public class ramControl {
 		}
 	}
 	
+	public boolean ProgramsTimeOutram (ram myRam) {
+		for(int i = 0; i < myRam.getProgramsEXE().size(); i++) {
+			if (myRam.getProgramsEXE().get(i).getRunTime() == 0) {
+				myRam.getProgramsEXE().remove(i);
+				System.out.println("Se removio un programa");
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
+	public void reduceProgramsTime(ram myRam) {
+		for(int i = 0; i < myRam.getProgramsEXE().size(); i++) {
+			myRam.getProgramsEXE().get(i).setRunTime(myRam.getProgramsEXE().get(i).getRunTime() - 1) ; 
+		}
+	}
 
 }

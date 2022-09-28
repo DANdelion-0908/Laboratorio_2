@@ -60,7 +60,6 @@ public class ram {
 		AvailableMemory = availableMemory;
 	}
 	
-	
 }
 
 

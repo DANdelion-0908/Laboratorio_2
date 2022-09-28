@@ -14,7 +14,7 @@ public class fileManager {
 	
 	public void GetFilePrograms(ram _ram) {
 		program program;
-		String file = "src\\programasIniciales.csv";
+		String file = "Laboratorio2/src\\programasIniciales.csv";
 		String line;
 		
 		try {
