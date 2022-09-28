@@ -51,6 +51,8 @@ public class simulationWindow extends JFrame {
 		RAMUiBlocks = new ArrayList<JLabel>();
 		
 		this.ActualSimulation = this;
+
+		// Creating the frame.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -58,33 +60,42 @@ public class simulationWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		// Creating a menu bar.
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		menuBar.setBounds(10, 11, 116, 29);
 		contentPane.add(menuBar);
 		
+		// Creating a menu bar.
 		JMenu mnNewMenu = new JMenu("            Menu            ");
 		menuBar.add(mnNewMenu);
 		
+		// Creating a menu item called "Set RAM" and adding it to the menu.
 		JMenuItem mntmNewMenuItem = new JMenuItem("Set RAM");
 		mnNewMenu.add(mntmNewMenuItem);
 		
+		// Creating a label called lblRUNTIME and setting its font and bounds.
 		JLabel lblRUNTIME = new JLabel(" - ");
 		lblRUNTIME.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblRUNTIME.setBounds(10, 187, 116, 29);
 		contentPane.add(lblRUNTIME);
 		
+		// Creating a timer that will execute the code inside the `actionPerformed` method every 1000
+		// milliseconds.
 		timer = new Timer (1000, new ActionListener ()
 		{
-		    public void actionPerformed(ActionEvent e)
+		    // A method that is called every time the timer ticks.
+			public void actionPerformed(ActionEvent e)
 		    {
 		    	TimerWork();
 		    	
-		    	lblRUNTIME.setText(minutes + ":" + seconds);
+		    	/*Setting the text of the label `lblRUNTIME` to the value of the variables `minutes` and
+				`seconds`.*/
+				lblRUNTIME.setText(minutes + ":" + seconds);
 		    	
-		    	RAMLogic.reduceProgramsTime(MyRam);
-		    	
-		    	if (RAMLogic.ProgramsTimeOutram(MyRam) == true) {
+		    	// Checking if the program has timed out, if it has, it deletes the previous queue and updates
+				// the RAM blocks.
+				if (RAMLogic.ProgramsTimeOutram(MyRam) == true) {
 		    		deletePreviousQueue(RAMUiBlocks);
 					UpdateRAMBlocks(RAMUiBlocks, MyRam);
 					getContentPane().revalidate();
@@ -95,6 +106,8 @@ public class simulationWindow extends JFrame {
 		    }
 		});
 		
+		
+		// Adding an action listener to the menu item `mntmNewMenuItem`.
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -109,67 +122,91 @@ public class simulationWindow extends JFrame {
 			}
 		});
 		
+		// Creating a menu item called "Add Program" and adding it to the menu.
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Add Program");
 		mnNewMenu.add(mntmNewMenuItem_1);
 		
+		// Creating a label called `lblNewLabel` and setting its text to "Cantidad de Ram: ", its bounds to
+		// (10, 124, 116, 14) and adding it to the content pane.
 		JLabel lblNewLabel = new JLabel("Cantidad de Ram: ");
 		lblNewLabel.setBounds(10, 124, 116, 14);
 		contentPane.add(lblNewLabel);
 		
+		// Creating a label called `lblTipoDeRam` and setting its text to "Tipo de Ram: ", its bounds to
+		// (10, 71, 116, 14) and adding it to the content pane.
 		JLabel lblTipoDeRam = new JLabel("Tipo de Ram: ");
 		lblTipoDeRam.setBounds(10, 71, 116, 14);
 		contentPane.add(lblTipoDeRam);
 		
+		// Creating a label called `lblRAMType` and setting its text to "-", its font to `Tahoma` and its
+		// bounds to `(10, 92, 63, 14)`.
 		lblRAMType = new JLabel("-");
 		lblRAMType.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblRAMType.setBounds(10, 92, 63, 14);
 		contentPane.add(lblRAMType);
 		
+		// Creating a label called `lblRAMSize` and setting its text to "-", its font to `Tahoma` and its
+		// bounds to `(10, 136, 160, 29)`.
 		lblRAMSize = new JLabel("-");
 		lblRAMSize.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblRAMSize.setBounds(10, 136, 160, 29);
 		contentPane.add(lblRAMSize);
 		
+		// Creating a label called `lblTime` and setting its text to "Tiempo de la Simulacion", its bounds to
+		// (10, 176, 167, 14) and adding it to the content pane.
 		JLabel lblTime = new JLabel("Tiempo de la Simulacion");
 		lblTime.setBounds(10, 176, 167, 14);
 		contentPane.add(lblTime);
 		
+		// Creating a button called `btnStart` and setting its text to "Iniciar", its bounds to `(10, 227,
+		// 89, 23)` and adding it to the content pane.
 		JButton btnStart = new JButton("Iniciar");
 		btnStart.setBounds(10, 227, 89, 23);
 		contentPane.add(btnStart);
 		
+		// Creating a label called `lblNewLabel_1` and setting its text to "Lista de Espera", its bounds to
+		// (199, 11, 116, 14) and adding it to the content pane.
 		JLabel lblNewLabel_1 = new JLabel("Lista de Espera");
 		lblNewLabel_1.setBounds(199, 11, 116, 14);
 		contentPane.add(lblNewLabel_1);
 		
+		// Creating a label called `lblNewLabel_1_1` and setting its text to "En Ejecucion", its bounds to
+		// (331, 11, 116, 14) and adding it to the content pane.
 		JLabel lblNewLabel_1_1 = new JLabel("En Ejecucion");
 		lblNewLabel_1_1.setBounds(331, 11, 116, 14);
 		contentPane.add(lblNewLabel_1_1);
 		
 		
+		// Adding an action listener to the button `btnStart`.
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					// Reading the programs from a file and adding them to the RAM.
 					fileManager InitialProgramsReader = new fileManager();
 					InitialProgramsReader.GetFilePrograms(MyRam);
 					
+					// Deleting the previous queue and updating the RAM blocks.
 					deletePreviousQueue(QueueUiBlocks);
 					UpdateQueueBlocks(QueueUiBlocks, MyRam);
 					
+					// Deleting the previous queue and updating the RAM blocks.
 					deletePreviousQueue(RAMUiBlocks);
 					UpdateRAMBlocks(RAMUiBlocks, MyRam);
 					
 					timer.start();
 					
 					
+				
+				// Catching any exception that might occur and printing it to the console.
 				} catch (Exception e1) {
-
+					System.out.println(e1);
 				}
 			}
 			
 		});
 		
 		
+		// Adding an action listener to the menu item `mntmNewMenuItem_1`.
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -186,6 +223,9 @@ public class simulationWindow extends JFrame {
 		
 	}
 	
+	/**
+	 * If the seconds are greater than 59, reset the seconds to 0 and increment the minutes.
+	 */
 	public void TimerWork() {
 		this.seconds += 1;
 			
@@ -196,30 +236,58 @@ public class simulationWindow extends JFrame {
 		
 	}
 
+	/**
+	 * This function returns the JLabel lblRAMType
+	 * 
+	 * @return The RAM type label.
+	 */
 	public JLabel getLblRAMType() {
 		return lblRAMType;
 	}
 
+	/**
+	 * This function returns the JLabel lblRAMSize
+	 * 
+	 * @return The label lblRAMSize is being returned.
+	 */
 	public JLabel getLblRAMSize() {
 		return lblRAMSize;
 	}
 
+	/**
+	 * This function returns the value of the variable MyRam
+	 * 
+	 * @return The ram object.
+	 */
 	public ram getMyRam() {
 		return MyRam;
 	}
 
+	/**
+	 * This function returns the ArrayList of JLabels that represent the blocks in the queue
+	 * 
+	 * @return The ArrayList of JLabels that are used to represent the queue in the UI.
+	 */
 	public ArrayList<JLabel> getQueueUiBlocks() {
 		return QueueUiBlocks;
 	}
 	
+	/**
+	 * This function returns the ArrayList of JLabels that represent the RAM blocks
+	 * 
+	 * @return The RAMUiBlocks ArrayList.
+	 */
 	public ArrayList<JLabel> getRAMUiBlocks() {
 		return RAMUiBlocks;
 	}
 
+	// Clearing the ArrayList of JLabels that represent the blocks in the queue and setting the variable
+	// `Position` to 1.
 	public void UpdateQueueBlocks(ArrayList<JLabel> _blocks, ram _MyRam) {
 		_blocks.clear();
 		int Position = 1;
 		
+		// Creating a JLabel for each program in the queue and adding it to the content pane.
 		for (program aProgram : _MyRam.getProgramsLINE()) {
 
 			JLabel newProgramlbl = new JLabel("" + aProgram.getName());
@@ -238,11 +306,13 @@ public class simulationWindow extends JFrame {
 		
 	}
 	
+	// Clearing the ArrayList of JLabels that represent the blocks in the RAM.
 	public void UpdateRAMBlocks(ArrayList<JLabel> _blocks, ram _MyRam) {
 		_blocks.clear();
 		
 		int Position = 1;
 		
+		// Creating a JLabel for each program in the RAM and adding it to the content pane.
 		for (program aProgram : _MyRam.getProgramsEXE()) {
 			for(int i = 0; i < aProgram.getProgramSize() ; i++) {
 				JLabel newEXElbl = new JLabel("" + aProgram.getName());
@@ -252,6 +322,7 @@ public class simulationWindow extends JFrame {
 				_blocks.add(newEXElbl);
 				Position+=1;
 				
+				// Adding the JLabel to the content pane, revalidating it and repainting it.
 				getContentPane().add(newEXElbl);
 				getContentPane().revalidate();
 				getContentPane().repaint();
@@ -260,6 +331,7 @@ public class simulationWindow extends JFrame {
 
 		}
 		
+		// Creating a JLabel for each block of free memory in the RAM.
 		for (int j = 0; j < _MyRam.getAvailableMemory(); j++) {
 			JLabel newFreelbl = new JLabel("LIBRE");
 			newFreelbl.setBounds(330, 40 * Position, 90,20);
@@ -275,9 +347,11 @@ public class simulationWindow extends JFrame {
 		
 	}
 	
+	// Deleting the previous queue.
 	public void deletePreviousQueue(ArrayList<JLabel> _blocksForLabels) {
 		for(int i = 0; i < _blocksForLabels.size(); i++) {
 			
+			// Removing the JLabel from the content pane, revalidating it and repainting it.
 			getContentPane().remove(_blocksForLabels.get(i));
 			getContentPane().revalidate();
 			getContentPane().repaint();
