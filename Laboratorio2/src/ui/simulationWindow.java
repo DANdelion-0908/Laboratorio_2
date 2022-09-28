@@ -40,7 +40,6 @@ public class simulationWindow extends JFrame {
 	private ArrayList<JLabel> QueueUiBlocks;
 	private ArrayList<JLabel> RAMUiBlocks;
 	Timer timer;
-	JScrollPane scrollPane;
 
 	/**
 	 * Create the frame.
@@ -54,7 +53,7 @@ public class simulationWindow extends JFrame {
 
 		// Creating the frame.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 597, 402);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -198,6 +197,19 @@ public class simulationWindow extends JFrame {
 		lblNewLabel_1_1.setBounds(331, 11, 116, 14);
 		contentPane.add(lblNewLabel_1_1);
 		
+		JPanel panel = new JPanel();
+		
+		JScrollPane scroll = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		scroll.setBounds(199, 73, 372, 279);
+		contentPane.add(scroll);
+		
+		JFrame blocks = new JFrame();
+		
+		
+		
+
+
 		
 		// Adding an action listener to the button `btnStart`.
 		btnStart.addActionListener(new ActionListener() {
