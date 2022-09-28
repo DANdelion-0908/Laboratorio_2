@@ -94,6 +94,7 @@ public class simulationWindow extends JFrame {
 				lblRUNTIME.setText(minutes + ":" + seconds);
 		    	
 		    	// Checking if the program has timed out, if it has, it deletes the previous queue and updates
+				RAMLogic.reduceProgramsTime(MyRam);
 				// the RAM blocks.
 				if (RAMLogic.ProgramsTimeOutram(MyRam) == true) {
 		    		deletePreviousQueue(RAMUiBlocks);

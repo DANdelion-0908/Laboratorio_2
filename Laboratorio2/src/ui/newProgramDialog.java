@@ -89,18 +89,8 @@ public class newProgramDialog extends JFrame {
 				// Adding a new program to the queue.
 				mainForm.deletePreviousQueue(mainForm.getQueueUiBlocks());
 				mainForm.getMyRam().getProgramsLINE().add(new program(PrgName, PrgSize, PrgTime));
-<<<<<<< Updated upstream
 				mainForm.UpdateQueueBlocks(mainForm.getQueueUiBlocks(), mainForm.getMyRam());
 				
-				
-				// Adding a new program to the queue.
-				mainForm.deletePreviousQueue(mainForm.getRAMUiBlocks());
-				mainForm.getMyRam().getProgramsEXE().add(new program(PrgName, PrgSize, PrgTime));
-				mainForm.UpdateRAMBlocks(mainForm.getRAMUiBlocks(), mainForm.getMyRam());
-				
-=======
-				mainForm.UpdateQueueBlocks(mainForm.getQueueUiBlocks(), mainForm.getMyRam());			
->>>>>>> Stashed changes
 				
 				// Updating the UI.
 				getContentPane().revalidate();

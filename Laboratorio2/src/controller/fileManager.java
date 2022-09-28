@@ -19,7 +19,7 @@ public class fileManager {
 	// Reading the file and creating a program object for each line in the file.
 	public void GetFilePrograms(ram _ram) {
 		program program;
-		String file = "./src/documents/programasIniciales.csv";
+		String file = "Laboratorio2/src/documents/programasIniciales.csv";
 		String line;
 		
 		try {

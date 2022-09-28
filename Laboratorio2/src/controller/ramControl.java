@@ -29,7 +29,6 @@ public class ramControl {
 		
 	}
 	
-<<<<<<< Updated upstream
 	/**
 	 * If the program is smaller than the ram, then it can be added to the ram. If the program is larger
 	 * than the ram, and the ram is DDR, then the ram is increased. If the program is larger than the ram,
@@ -38,13 +37,9 @@ public class ramControl {
 	 * @param _Program The program that is being added to the ram.
 	 * @return The method is returning a boolean value.
 	 */
-
-	public boolean CanAddProgramToRam(program _Program) {
-		int ramSpace = actualRam.getRamStorage();
-=======
+		
 	public boolean CanAddProgramToRam(ram _myRam, program _Program) {
 		int ramSpace = _myRam.getAvailableMemory();
->>>>>>> Stashed changes
 		int ProgramSpace = _Program.getProgramSize();
 		String RamType = _myRam.getRamType();
 		
