@@ -82,6 +82,8 @@ public class simulationWindow extends JFrame {
 		    	
 		    	lblRUNTIME.setText(minutes + ":" + seconds);
 		    	
+		    	RAMLogic.reduceProgramsTime(MyRam);
+		    	
 		    	if (RAMLogic.ProgramsTimeOutram(MyRam) == true) {
 		    		deletePreviousQueue(RAMUiBlocks);
 					UpdateRAMBlocks(RAMUiBlocks, MyRam);
@@ -92,7 +94,6 @@ public class simulationWindow extends JFrame {
 		    	
 		    }
 		});
-		
 		
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
