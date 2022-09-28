@@ -82,15 +82,14 @@ public class newProgramDialog extends JFrame {
 				String PrgName = textField_ProgramName.getText().trim();
 				int PrgSize = Integer.parseInt(textField_ProgramSize.getText().trim());
 				PrgSize = ramLOGIC.mbToBlock(PrgSize);
-				System.out.println(PrgSize);
 				
 				// Getting the text from the text fields and converting it to an integer.
 				int PrgTime = Integer.parseInt(textField_ProgramTime.getText().trim());
-				System.out.println(PrgName +" "+ PrgSize +" "+ PrgTime);
 				
 				// Adding a new program to the queue.
 				mainForm.deletePreviousQueue(mainForm.getQueueUiBlocks());
 				mainForm.getMyRam().getProgramsLINE().add(new program(PrgName, PrgSize, PrgTime));
+<<<<<<< Updated upstream
 				mainForm.UpdateQueueBlocks(mainForm.getQueueUiBlocks(), mainForm.getMyRam());
 				
 				
@@ -99,12 +98,14 @@ public class newProgramDialog extends JFrame {
 				mainForm.getMyRam().getProgramsEXE().add(new program(PrgName, PrgSize, PrgTime));
 				mainForm.UpdateRAMBlocks(mainForm.getRAMUiBlocks(), mainForm.getMyRam());
 				
+=======
+				mainForm.UpdateQueueBlocks(mainForm.getQueueUiBlocks(), mainForm.getMyRam());			
+>>>>>>> Stashed changes
 				
 				// Updating the UI.
 				getContentPane().revalidate();
 				getContentPane().repaint();
-				selfPrgDialog.dispose();
-				
+				selfPrgDialog.dispose();		
 			
 			}
 		});

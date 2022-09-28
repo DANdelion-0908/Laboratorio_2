@@ -33,7 +33,7 @@ public class fileManager {
 				int size =  Integer.parseInt(fields[PROGRAM_SIZE]);
 				int time = Integer.parseInt(fields[PROGRAM_TIME]);
 				
-				program = new program(name, size, time);
+				program = new program(name, size /64, time);
 				_ram.getProgramsLINE().add(program);
 		
 			}

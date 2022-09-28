@@ -29,6 +29,7 @@ public class ramControl {
 		
 	}
 	
+<<<<<<< Updated upstream
 	/**
 	 * If the program is smaller than the ram, then it can be added to the ram. If the program is larger
 	 * than the ram, and the ram is DDR, then the ram is increased. If the program is larger than the ram,
@@ -40,15 +41,19 @@ public class ramControl {
 
 	public boolean CanAddProgramToRam(program _Program) {
 		int ramSpace = actualRam.getRamStorage();
+=======
+	public boolean CanAddProgramToRam(ram _myRam, program _Program) {
+		int ramSpace = _myRam.getAvailableMemory();
+>>>>>>> Stashed changes
 		int ProgramSpace = _Program.getProgramSize();
-		String RamType = actualRam.getRamType();
+		String RamType = _myRam.getRamType();
 		
 		if (ramSpace > ProgramSpace) {
 			return true;
 		}
 		
 		else if (ramSpace <= ProgramSpace && RamType.equals("ddr")) {
-			IncreaseRam(actualRam);
+			IncreaseRam(_myRam);
 			return true;
 		}
 		
@@ -144,7 +149,10 @@ public class ramControl {
 	public boolean ProgramsTimeOutram (ram myRam) {
 		for(int i = 0; i < myRam.getProgramsEXE().size(); i++) {
 			if (myRam.getProgramsEXE().get(i).getRunTime() == 0) {
+				myRam.setRamStorage(myRam.getRamStorage() + myRam.getProgramsEXE().get(i).getProgramSize());
+				myRam.setAvailableMemory(myRam.getAvailableMemory() + myRam.getProgramsEXE().get(i).getProgramSize());
 				myRam.getProgramsEXE().remove(i);
+				
 				System.out.println("Se removio un programa");
 				return true;
 			}

@@ -102,6 +102,27 @@ public class simulationWindow extends JFrame {
 					getContentPane().repaint();
 		    	}
 		    	
+		    	for (int j = 0; j < MyRam.getProgramsLINE().size(); j++) {
+		    		
+		    		if(RAMLogic.CanAddProgramToRam(MyRam, MyRam.getProgramsLINE().get(j) ) ) {
+		    			RAMLogic.addProgramToRam(MyRam, MyRam.getProgramsLINE().get(j));
+		    			MyRam.getProgramsLINE().remove(j);
+		    			
+		    			deletePreviousQueue(QueueUiBlocks);
+						UpdateQueueBlocks(QueueUiBlocks, MyRam);
+						
+						deletePreviousQueue(RAMUiBlocks);
+						UpdateRAMBlocks(RAMUiBlocks, MyRam);
+						
+						getContentPane().revalidate();
+						getContentPane().repaint();
+						
+		    		}
+		    	}
+		    	
+		    	if (MyRam.getRamType().equals("ddr")) {
+		    		System.out.println("Is ddr");
+		    	}
 		    	
 		    }
 		});
@@ -326,7 +347,6 @@ public class simulationWindow extends JFrame {
 				getContentPane().add(newEXElbl);
 				getContentPane().revalidate();
 				getContentPane().repaint();
-				System.out.println(_MyRam.getAvailableMemory() + "a" + Position);
 			} 
 
 		}
